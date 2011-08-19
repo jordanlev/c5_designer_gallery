@@ -1,0 +1,44 @@
+<?php defined('C5_EXECUTE') or die(_("Access Denied.")); ?>
+
+<?php
+/* You can loop through all of the images in the chosen file set with some code like this:
+ *
+ *   <?php foreach ($images as $img): ?>
+ *       ...
+ *   <?php endforeach; ?>
+ *
+ * Inside the loop, the following data is available about each image:
+ *   $img->title : Image's "Title" attribute (set via File Manager properties). Note that C5 sets titles to the file name upon initial upload, so you might not want to display this if you don't expect users to edit them)
+ *   $img->description : Image's "Description" attribute (set via File Manager properties) -- use this for captions
+ *   $img->orig->src : Original (full-size) image src
+ *   $img->orig->width : Original (full-size) image width (in pixels)
+ *   $img->orig->height : Original (full-size) image height (in pixels)
+ *   $img->large->src : Large image src
+ *   $img->large->width : Large image width (in pixels)
+ *   $img->large->height : Large image height (in pixels)
+ *   $img->thumb->src : Thumbnail image src
+ *   $img->thumb->width : Thumbnail image width (in pixels)
+ *   $img->thumb->height : Thumbnail image height (in pixels)
+ *   $img->titleRaw : Unescaped title (html entities are not encoded -- use with caution!)
+ *   $img->descriptionRaw : Unescaped title (html entities are not encoded -- use with caution!)
+ *   $img->fID : Image's File ID (assigned by Concrete5 when first uploaded)
+ *   $img->LinkUrl : URL of a page that the image should link to when clicked (NOTE THAT THIS DOES NOT WORK OUT OF THE BOX -- SEE DOCUMENTATION FOR HOW TO SET THIS UP ON YOUR SITE)
+ *
+ * If you need to set a container width/height or pass in an overall width/height to your plugin,
+ * you can access the settings from the controller like this:
+ *   <?php echo $controller->largeWidth ?>
+ *   <?php echo $controller->largeHeight ?>
+ *   <?php echo $controller->thumbWidth ?>
+ *   <?php echo $controller->thumbHeight ?>
+ * (you could also just use the same number, but this way if you change it in the controller, it gets automatically updated in the template)
+ */
+?>
+
+<ul class="gallery">
+<?php foreach ($images as $img): ?>
+	<li>
+		<?php echo $img->title ?>:<br />
+		<img src="<?php echo $img->large->src ?>" width="<?php echo $img->large->width ?>" height="<?php echo $img->large->height ?>" alt="" />
+	</li>
+<?php endforeach; ?>
+</ul>

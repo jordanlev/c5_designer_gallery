@@ -1,0 +1,16 @@
+.fancybox_thumbs_container {
+	width: 100%;
+	float: left;
+}
+.fancybox_thumbs_image {
+	padding: 5px 0;
+	text-align: center;
+	float: left;
+}
+.fancybox_thumbs_image p {
+	overflow: hidden;
+}
+
+.fancybox_thumbs_image a img {
+    border: none; /* for IE */
+}
