@@ -31,14 +31,27 @@
  *   <?php echo $controller->thumbWidth ?>
  *   <?php echo $controller->thumbHeight ?>
  * (you could also just use the same number, but this way if you change it in the controller, it gets automatically updated in the template)
+ *
+ * As with all C5 block templates, the $bID (Block ID) variable is available. If you're using a jquery plugin,
+ * you will want to output this variable as part of an id so that this block's images can be uniquely identified
+ * (otherwise there will be problems if the user adds more than one of this block to the same page).
  */
 ?>
 
-<ul class="gallery">
-<?php foreach ($images as $img): ?>
-	<li>
-		<?php echo $img->title ?>:<br />
-		<img src="<?php echo $img->large->src ?>" width="<?php echo $img->large->width ?>" height="<?php echo $img->large->height ?>" alt="" />
-	</li>
-<?php endforeach; ?>
-</ul>
+<div id="gallery<?php echo $bID ?>">
+	<ul>
+	<?php foreach ($images as $img): ?>
+		<li>
+			<?php echo $img->title ?>:<br />
+			<img src="<?php echo $img->large->src ?>" width="<?php echo $img->large->width ?>" height="<?php echo $img->large->height ?>" alt="" />
+		</li>
+	<?php endforeach; ?>
+	</ul>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	//JQUERY PLUGIN EXAMPLE:
+	//$('#gallery<?php echo $bID ?>').someKindOfGallery();
+});
+</script>

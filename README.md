@@ -5,8 +5,14 @@ Boilerplate image gallery block that makes is easy(er) for designers to add a jq
 ## Installation / Customization
 
 1. Move the `designer_gallery` directory from this repo's `blocks` directory to your site's top-level `blocks` directory (note: this is just a block, *not* a package -- so don't put it in your `packages` directory).
-2. Rename the `designer_gallery` directory to whatever you want the block to be named (lowercase letters and underscores only -- no spaces).
-3. Edit the `controller.php` file. Change the class name, size settings, and block name/description/tablename variables as needed.
+2. Rename the `designer_gallery` directory as desired (should be the lowercase_and_underscore version of your block's name -- for example, "My Awesome Gallery" would get a directory name of "my_awesome_gallery").
+3. Edit the `controller.php` file:
+    * Change the class name to be a TitleCaseWithNoSpaces version of the block name (otherwise known as CamelCase), followed by `BlockController` -- for example, "My Awesome Gallery" would get a class name of `MyAwesomeGalleryBlockController`.
+    * Change the size settings as appropriate for your design (see code comments for more details).
+    * Set $randomizeOrder to true if you want images to be "shuffled" every time the page is viewed.
+      If $randomOrder stays false, the display order of images in the gallery will be determined by the File Set's display order (Dashboard -> File Manager -> Sets -> [File Set Name] -> Files).
+    * Change the block name and description. It is recommended that the name correspond with the directory and class names, but this is not a technical requirement (just avoids confusion).
+    * Change the table name to `bt` followed by the CamelCase version of the block name -- for example, "My Awesome Gallery" would get a table name of `btMyAwesomeGallery`.
 4. Edit `db.xml` file so the table name matches what you set in `controller.php`.
 5. Add your own js, css, and image files to their respective directories within the block. Note that Concrete5 automatically loads .js files in a block's `/js/` directory and .css files in a block's `/css/` directory (but not files in sub-directories of those).
 6. Tweak your .css file so that image paths point to the images directory -- e.g. `url(../image/example.gif)`

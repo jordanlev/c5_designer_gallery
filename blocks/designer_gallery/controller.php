@@ -1,21 +1,25 @@
 <?php defined('C5_EXECUTE') or die(_("Access Denied."));
 
 class DesignerGalleryBlockController extends BlockController {
-/*    ^^^^^^^^^^^^^^^^^^^^
+/*    ^^^^^^^^^^^^^^^
       CHANGE THIS PORTION
       OF THE CLASS NAME TO
-      CORRESPOND WITH THE
-      BLOCK'S DIRECTORY NAME
+      CamelCase VERSION OF
+      THE BLOCK'S NAME.
 */
 	
 	//Size/Cropping Notes:
-	// * Cropping only works in Concrete version 5.4.2 and up (crop settings are ignored in earlier versions of C5).
+	// * Images will never be scaled up in size (i.e. an image smaller than the given size settings will not be enlarged).
+	// * Cropping only works in Concrete version 5.4.2 and up.
+	//   (If using an earlier version of C5, the crop setting will be ignored and images will always be scaled.)
 	// * If cropping, the width and height determine the exact size of the resized image.
 	// * If not cropping, the image is resized proportionally, so width and height determine the maximum possible size.
 	// * Setting a width or height to 0 means "ignore this size in our calculations" (as opposed to "make this invisible"):
 	//    ~if cropping, setting one dimension to 0 means that only the *other* dimension will be cropped.
 	//    ~if not cropping, setting one dimension to 0 means that the image will be scaled down proportionally according to the *other* dimension.
-	//    ~if both width and height are set to 0, resizing/cropping will be disabled for that size (only recommended if you're not using that size in your template)
+	//    ~if both width and height are set to 0, resizing/cropping will be disabled for that size.
+	//     (Do this if you're not using a particular size of image in your template, for example if you are not
+	//     displaying thumbnails in your gallery, disable them by setting $thumbWidth and $thumbHeight to 0.)
 	
 	public $largeWidth = 300;
 	public $largeHeight = 200;
