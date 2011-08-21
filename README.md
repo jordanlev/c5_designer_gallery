@@ -1,6 +1,6 @@
 # Concrete5 Designer Gallery
 
-Boilerplate image gallery block that makes is easy(er) for designers to add a jquery / javascript slideshow, slider, gallery, etc. to a website. Includes many example front-ends (Galleria, Galleriffic, Fancybox, PlusSlider, Coin Slider, and more).
+Boilerplate image gallery block that makes is easy(er) for designers to add a jquery / javascript slideshow, slider, gallery, etc. to a website. Includes many example front-ends (Galleria, Galleriffic, Fancybox, Nivo Slider, Coin Slider, and PlusSlider).
 
 ## Installation / Customization
 
