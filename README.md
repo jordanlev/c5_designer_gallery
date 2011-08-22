@@ -8,22 +8,23 @@ Download this code by clicking the "Downloads" button above and to the right, th
 ## Customization Steps
 The templates that come with the block are intended to be examples or starting points only. To make your own custom theme for this block, do the following:
 
-1. Rename the `designer_gallery` directory as desired (should be the lowercase_and_underscore version of your block's name -- for example, "My Awesome Gallery" would get a directory name of "my_awesome_gallery").
-2. Edit the `controller.php` file:
+1. Uninstall the block via Dashboard -> Add Functionality. We must do this because we are about to rename the block (which you never want to do while it is installed -- that will result in Concrete5 errors).
+2. Rename the `designer_gallery` directory as desired (should be the lowercase_and_underscore version of your block's name -- for example, "My Awesome Gallery" would get a directory name of "my_awesome_gallery").
+3. Edit the `controller.php` file:
     * Change the class name to be a TitleCaseWithNoSpaces version of the block name (otherwise known as CamelCase), followed by `BlockController` -- for example, "My Awesome Gallery" would get a class name of `MyAwesomeGalleryBlockController`.
-    * Change the size settings as appropriate for your design (see code comments for more details).
-    * Set $randomizeOrder to true if you want images to be "shuffled" every time the page is viewed.
-      If $randomOrder stays false, the display order of images in the gallery will be determined by the File Set's display order (Dashboard -> File Manager -> Sets -> [File Set Name] -> Files).
     * Change the block name and description. It is recommended that the name correspond with the directory and class names, but this is not a technical requirement (just avoids confusion).
     * Change the table name to `bt` followed by the CamelCase version of the block name -- for example, "My Awesome Gallery" would get a table name of `btMyAwesomeGallery`.
-3. Edit `db.xml` file so the table name matches what you set in `controller.php`.
-4. Customize the gallery/slideshow/slider/fader design by either copying all of the files from one of the existing "templates" to the top-level of the block directory structure, or by creating your own template:
+4. Edit `db.xml` file so the table name matches what you set in `controller.php`.
+5. Reinstall the block via Dashboard -> Add Functionality.
+6. Customize the gallery/slideshow/slider/fader design by either copying all of the files from one of the existing "templates" to the top-level of the block directory structure, or by creating your own template:
     * Put all of your required javascript files into the block's top-level `js` directory.
         * *NOTE: Do **not** put the base jQuery library in here -- Concrete5 loads this automatically on every page already so if you add it here, it will get loaded twice and cause conflicts and errors on the page.*
     * Put all of your required css files into the block's top-level `css` directory.
     * If a stylesheet utilizes background images, place those in the block's top-level `images` directory, then tweak the css so image paths point to that `images` directory -- e.g. `url(../images/example.png)`
         * *NOTE: Do **not** put the images that will be displayed in your gallery/slideshow/slider/fader here -- those will be chosen by the user when they add this block to a page.*
     * Modify the block's top-level `view.php` file to generate the proper html needed for your gallery/slideshow/slider/fader, as well as the javascript initialization code (as per your jQuery library's instructions). This is the hard part! It can often require tweaking the CSS that came with your gallery/slideshow/slider/fader. See the next section for additional help.
+    * Change the size settings in controller.php as needed for your design (see code comments for more details).
+    * By default, the display order of images in the gallery will be determined by the File Set's display order (Dashboard -> File Manager -> Sets -> [File Set Name] -> Files). If you wish to display images in a random order instead, set the $randomizeOrder variable to true in controller.php (images to be "shuffled" every time the page is viewed).
     * After you've finished created your own customized gallery/slideshow/slider/fader, you should probably remove the `/templates/` directory so users don't accidentally choose one of them as a custom template for the block, and also because it contains a lot of files that will just waste space if not being used.
 
 ##Customization Notes, Tips, and Gotchas
