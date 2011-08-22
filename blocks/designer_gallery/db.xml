@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <schema version="0.3">
 	
-	<table name="btDesignerImageGallery"><!-- this must be the same name as $btTableName in controller.php -->
+	<table name="btDesignerGallery"><!-- this must be the same name as $btTableName in controller.php -->
 		
 		<field name="bID" type="I"><KEY /><UNSIGNED /></field>
 		<field name="fsID" type="I"><UNSIGNED /></field>
