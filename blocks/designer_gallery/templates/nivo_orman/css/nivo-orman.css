@@ -9,7 +9,7 @@ Author URI: http://dev7studios.com
 */
 
 .theme-orman.slider-wrapper {
-    background:url(../images/nivo/orman/slider.png) no-repeat;
+    background:url(../images/slider.png) no-repeat;
     width:722px;
     height:337px;
     margin:0 auto;
@@ -22,7 +22,7 @@ Author URI: http://dev7studios.com
     width:568px;
     height:268px;
     margin-left:77px;
-    background:url(../images/nivo/orman/loading.gif) no-repeat 50% 50%;
+    background:url(../images/loading.gif) no-repeat 50% 50%;
 }
 .theme-orman .nivoSlider img {
     position:absolute;
@@ -47,7 +47,7 @@ Author URI: http://dev7studios.com
     display:block;
     width:10px;
     height:10px;
-    background:url(../images/nivo/orman/bullets.png) no-repeat;
+    background:url(../images/bullets.png) no-repeat;
     text-indent:-9999px;
     border:0;
     margin-right:7px;
@@ -61,7 +61,7 @@ Author URI: http://dev7studios.com
 	display:block;
 	width:25px;
 	height:200px;
-	background:url(../images/nivo/orman/arrows.png) no-repeat 0% 50%;
+	background:url(../images/arrows.png) no-repeat 0% 50%;
 	text-indent:-9999px;
 	border:0;
     top:40px;
@@ -88,7 +88,7 @@ Author URI: http://dev7studios.com
 }
 
 .theme-orman .ribbon {
-    background:url(../images/nivo/orman/ribbon.png) no-repeat;
+    background:url(../images/ribbon.png) no-repeat;
     width:111px;
     height:111px;
     position:absolute;

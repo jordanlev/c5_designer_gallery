@@ -9,7 +9,7 @@ Author URI: http://dev7studios.com
 */
 
 .theme-pascal.slider-wrapper {
-    background:url(../images/nivo/pascal/slider.png) no-repeat;
+    background:url(../images/slider.png) no-repeat;
     width:668px;
     height:299px;
     margin:0 auto;
@@ -22,7 +22,7 @@ Author URI: http://dev7studios.com
     width:630px;
     height:235px;
     margin-left:19px;
-    background:url(../images/nivo/pascal/loading.gif) no-repeat 50% 50%;
+    background:url(../images/loading.gif) no-repeat 50% 50%;
 }
 .theme-pascal .nivoSlider img {
     position:absolute;
@@ -38,7 +38,7 @@ Author URI: http://dev7studios.com
 }
 
 .theme-pascal .nivo-controlNav {
-    background:url(../images/nivo/pascal/controlnav.png) no-repeat;
+    background:url(../images/controlnav.png) no-repeat;
     width:251px;
     height:40px;
     position:absolute;
@@ -51,7 +51,7 @@ Author URI: http://dev7studios.com
     display:block;
     width:22px;
     height:22px;
-    background:url(../images/nivo/pascal/bullets.png) no-repeat;
+    background:url(../images/bullets.png) no-repeat;
     text-indent:-9999px;
     border:0;
     margin-right:3px;
@@ -92,7 +92,7 @@ Author URI: http://dev7studios.com
 }
 
 .theme-pascal .ribbon {
-    background:url(../images/nivo/pascal/ribbon.png) no-repeat;
+    background:url(../images/ribbon.png) no-repeat;
     width:111px;
     height:111px;
     position:absolute;
