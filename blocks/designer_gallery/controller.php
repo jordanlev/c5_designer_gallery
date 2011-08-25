@@ -39,7 +39,7 @@ class DesignerGalleryBlockController extends BlockController {
 **************************************************************************************************/
 
 	protected $btInterfaceWidth = "300";
-	protected $btInterfaceHeight = "70";
+	protected $btInterfaceHeight = "95";
 	protected $btCacheBlockRecord = true;
 	protected $btCacheBlockOutput = true;
 	protected $btCacheBlockOutputOnPost = true;
@@ -49,10 +49,12 @@ class DesignerGalleryBlockController extends BlockController {
 	public function add() {
 		$this->set('fsID', 0);
 		$this->loadFileSets();
+		$this->set('filesetsToolURL', REL_DIR_FILES_TOOLS_BLOCKS . '/designer_gallery/fileset_select_options');
 	}
 	
 	public function edit() {
 		$this->loadFileSets();
+		$this->set('filesetsToolURL', REL_DIR_FILES_TOOLS_BLOCKS . '/designer_gallery/fileset_select_options');
 	}
 	
 	public function view() {
