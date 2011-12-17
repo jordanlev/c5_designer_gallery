@@ -3,14 +3,15 @@
 Boilerplate image gallery block that makes is easy(er) for designers to add a jquery / javascript slideshow, slider, gallery, etc. to a website.
 
 ## Installation
-Prerequisite: To enable image links, first install Mnkras's free [Page Selector Attribute](http://www.concrete5.org/marketplace/addons/page-selector-attribute/) addon.
-
 Download this code by clicking the "Zip" button above. Unzip the downloaded file and move the entire `designer_gallery` directory into your site's top-level `packages` directory. Then log into your site and go to Dashboard -> Add Functionality. Click the "Install" button next to "Designer Gallery".
+
+*Note: to enable image links, you'll want to install Mnkras's free [Page Selector Attribute](http://www.concrete5.org/marketplace/addons/page-selector-attribute/) addon **before** installing this gallery).*
+
 
 ## Customization Steps
 This package provides a backend / editing interface, but it is up to you to provide the front-end. The general steps involved are:
 
-1. Uninstall the block via Dashboard -> Add Functionality. We must do this because we are about to rename the package (and its block), which you never want to do while it is installed -- that would result in Concrete5 errors.
+1. Uninstall the package via Dashboard -> Add Functionality. We must do this because we are about to rename the package (and its block), which you never want to do while it is installed -- that would result in Concrete5 errors.
 2. Rename the `designer_gallery` package directory *and* block directory as needed (should be the lowercase_and_underscore version of your block's name -- for example, "My Awesome Gallery" would get a directory name of "my_awesome_gallery" for both the top-level package directory and the block directory under the package's `blocks` directory).
 3. Edit the package `controller.php` file:
 	* Change the class name to be a TitleCaseWithNoSpaces version of the package name, followed by `Package` -- for example, "My Awesome Gallery" would get a class name of `MyAwesomeGalleryPackage`.
