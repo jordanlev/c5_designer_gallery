@@ -31,7 +31,6 @@
  *   <?php echo $maxLargeHeight ?>
  *   <?php echo $maxThumbWidth ?>
  *   <?php echo $maxThumbHeight ?>
- * (you could also just use the same number, but this way if you change it in the controller, it gets automatically updated in the template)
  *
  * As with all C5 block templates, the $bID (Block ID) variable is available. If you're using a jquery plugin,
  * you will want to output this variable as part of an id so that this block's images can be uniquely identified
