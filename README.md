@@ -10,31 +10,27 @@ Download this code by clicking the "Zip" button above. Unzip the downloaded file
 ## Customization Steps
 This package provides a backend / editing interface, but it is up to you to provide the front-end. The general steps involved are:
 
-***TODO: Make these instructions apply to the package (will have to rename more directories and things in code)***
-
 1. Uninstall the block via Dashboard -> Add Functionality. We must do this because we are about to rename the package (and its block), which you never want to do while it is installed -- that would result in Concrete5 errors.
-2. Rename the `designer_gallery` directory as desired (should be the lowercase_and_underscore version of your block's name -- for example, "My Awesome Gallery" would get a directory name of "my_awesome_gallery").
-3. Edit the `controller.php` file:
-    * Change the class name to be a TitleCaseWithNoSpaces version of the block name (otherwise known as CamelCase), followed by `BlockController` -- for example, "My Awesome Gallery" would get a class name of `MyAwesomeGalleryBlockController`.
+2. Rename the `designer_gallery` package directory *and* block directory as needed (should be the lowercase_and_underscore version of your block's name -- for example, "My Awesome Gallery" would get a directory name of "my_awesome_gallery" for both the top-level package directory and the block directory under the package's `blocks` directory).
+3. Edit the package `controller.php` file:
+	* Change the class name to be a TitleCaseWithNoSpaces version of the package name, followed by `Package` -- for example, "My Awesome Gallery" would get a class name of `MyAwesomeGalleryPackage`.
+	* Change the package handle (`$pkgHandle`) to the lowercase_with_underscores version of the package name (the same as the package directory name).
+	* Change the return values of the getPackageName() and getPackageDescription() functions.
+4. Edit the block's `controller.php` file:
+    * Change the class name to be a TitleCaseWithNoSpaces version of the block name, followed by `BlockController` -- for example, "My Awesome Gallery" would get a class name of `MyAwesomeGalleryBlockController`.
     * Change the block name and description. It is recommended that the name correspond with the directory and class names, but this is not a technical requirement (just avoids confusion).
     * Change the table name to `bt` followed by the CamelCase version of the block name -- for example, "My Awesome Gallery" would get a table name of `btMyAwesomeGallery`.
-4. Edit `db.xml` file so the table name matches what you set in `controller.php`.
-5. Reinstall the block via Dashboard -> Add Functionality.
-6. Customize the gallery/slideshow/slider/fader design by either copying all of the files from one of the existing "templates" to the top-level of the block directory structure, or by creating your own template:
+5. Edit the block's `db.xml` file so the table name matches what you set in the block `controller.php`.
+6. Reinstall the package via Dashboard -> Add Functionality.
+7. Implement the front-end.
     * Put all of your required javascript files into the block's top-level `js` directory.
         * *NOTE: Do **not** put the base jQuery library in here -- Concrete5 loads this automatically on every page already so if you add it here, it will get loaded twice and cause conflicts and errors on the page.*
     * Put all of your required css files into the block's top-level `css` directory.
     * If a stylesheet utilizes background images, place those in the block's top-level `images` directory, then tweak the css so image paths point to that `images` directory -- e.g. `url(../images/example.png)`
         * *NOTE: Do **not** put the images that will be displayed in your gallery/slideshow/slider/fader here -- those will be chosen by the user when they add this block to a page.*
     * Modify the block's top-level `view.php` file to generate the proper html needed for your gallery/slideshow/slider/fader, as well as the javascript initialization code (as per your jQuery library's instructions). This is the hard part! It can often require tweaking the CSS that came with your gallery/slideshow/slider/fader. See the next section for additional help.
-    * Change the size settings in controller.php as needed for your design (see code comments for more details).
-    * By default, the display order of images in the gallery will be determined by the File Set's display order (Dashboard -> File Manager -> Sets -> [File Set Name] -> Files). If you wish to display images in a random order instead, set the $randomizeOrder variable to true in controller.php (images to be "shuffled" every time the page is viewed).
-    * After you've finished created your own customized gallery/slideshow/slider/fader, you should probably remove the `/templates/` directory so users don't accidentally choose one of them as a custom template for the block, and also because it contains a lot of files that will just waste space if not being used.
 
-
-***TODO: Add a section about how to customize the back-end (turning on/off large and thumb, setting default values in their place)***
-
-##Customization Notes, Tips, and Gotchas
+## Customization Notes, Tips, and Gotchas
 Some things to watch out for when building your own slideshow:
 
 * The package requires Concrete 5.4.1 or higher (primarily because you couldn't specify the order of files in a file set before that version).
@@ -71,3 +67,7 @@ When this package is installed, it will check to see if you have the "Page Selec
 1. Install the free [Page Selector Attribute](http://www.concrete5.org/marketplace/addons/page-selector-attribute/) addon from the marketplace.
 2. Allow the new attribute type to be associated with files by going to Dashboard -> Sitewide Settings -> Attributes, and checking the box under the "File" column for the "Page Selector" row.
 3. Add a new "Page Selector" attribute: go to Dashboard -> File Manager -> Attributes, find the "Choose Attribute Type" dropdown at the bottom, choose "Page Selector" from the dropdown menu, click the "Go" button. Enter "gallery_link_to_cid" (no quotes) for the handle, "Gallery Link To Page" for the name, and leave the "Searchable" checkboxes unchecked. Then click the "Add Attribute" button.
+
+## Back-End Configuration Options
+You (as the designer / developer) can choose whether to show end-users the "large image" resize controls, the "thumbnail image" resize controls, both, or neither. Do this by setting the `$showLargeControls` and `$showThumbControls` variables in the block's `controller.php` file. For example, if you are creating a slideshow for which you don't show thumbnails, you can hide the thumb controls so the user doesn't see them and get confused. Another example is if you always want your gallery to show full-size images (without any resizing or cropping), you can hide both sets of controls, so the user only chooses a file set and a display order, but nothing else.
+Another option is if you are creating a very specific design for your gallery and you want to "hard-code" the width and height of the images (you do *not* want to give the user the ability to change these settings). This can be achieved by disabling both sets of controls, and setting the desired "hard-coded" values for width/height/etc. in the block's controller defaults (e.g. `$defaultLargeWidth`, `$defaultThumbWidth`, etc.)
