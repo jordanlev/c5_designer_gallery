@@ -108,7 +108,7 @@ class DesignerGalleryBlockController extends BlockController {
 	}
 	
 	private function setInterfaceSettings() {
-		$this->set('filesetsToolURL', REL_DIR_FILES_TOOLS_BLOCKS . '/designer_gallery/fileset_select_options');
+		$this->set('filesetsToolURL', REL_DIR_FILES_TOOLS_BLOCKS . '/' . $this->btHandle . '/fileset_select_options');
 		$this->set('showLargeControls', $this->showLargeControls);
 		$this->set('showThumbControls', $this->showThumbControls);
 	}
