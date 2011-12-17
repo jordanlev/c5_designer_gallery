@@ -1,14 +1,18 @@
 # Concrete5 Designer Gallery
 
-Boilerplate image gallery block that makes is easy(er) for designers to add a jquery / javascript slideshow, slider, gallery, etc. to a website. Includes many example front-ends (Galleria, Galleriffic, Fancybox, Nivo Slider, Coin Slider, and PlusSlider).
+Boilerplate image gallery block that makes is easy(er) for designers to add a jquery / javascript slideshow, slider, gallery, etc. to a website.
 
 ## Installation
-Download this code by clicking the "Downloads" button above and to the right, then choosing "Download .zip". Unzip the downloaded file and move the `designer_gallery` directory from within the `blocks` directory to your site's top-level `blocks` directory (note: this is just a block, *not* a package -- so don't put it in your `packages` directory). Then log into your site and go to Dashboard -> Add Functionality. Click the "Install" button next to "Designer Gallery". Add the Designer Gallery block to a page, and then click on the new block in the page and choose "Custom Template" from the popup menu to see the list of choices. You will probably need to tweak the size settings in the controller.php file to make things look right.
+Prerequisite: To enable image links, first install Mnkras's free [Page Selector Attribute](http://www.concrete5.org/marketplace/addons/page-selector-attribute/) addon.
+
+Download this code by clicking the "Zip" button above. Unzip the downloaded file and move the entire `designer_gallery` directory into your site's top-level `packages` directory. Then log into your site and go to Dashboard -> Add Functionality. Click the "Install" button next to "Designer Gallery".
 
 ## Customization Steps
-The templates that come with the block are intended to be examples or starting points only. To make your own custom theme for this block, do the following:
+This package provides a backend / editing interface, but it is up to you to provide the front-end. The general steps involved are:
 
-1. Uninstall the block via Dashboard -> Add Functionality. We must do this because we are about to rename the block (which you never want to do while it is installed -- that will result in Concrete5 errors).
+***TODO: Make these instructions apply to the package (will have to rename more directories and things in code)***
+
+1. Uninstall the block via Dashboard -> Add Functionality. We must do this because we are about to rename the package (and its block), which you never want to do while it is installed -- that would result in Concrete5 errors.
 2. Rename the `designer_gallery` directory as desired (should be the lowercase_and_underscore version of your block's name -- for example, "My Awesome Gallery" would get a directory name of "my_awesome_gallery").
 3. Edit the `controller.php` file:
     * Change the class name to be a TitleCaseWithNoSpaces version of the block name (otherwise known as CamelCase), followed by `BlockController` -- for example, "My Awesome Gallery" would get a class name of `MyAwesomeGalleryBlockController`.
@@ -27,14 +31,13 @@ The templates that come with the block are intended to be examples or starting p
     * By default, the display order of images in the gallery will be determined by the File Set's display order (Dashboard -> File Manager -> Sets -> [File Set Name] -> Files). If you wish to display images in a random order instead, set the $randomizeOrder variable to true in controller.php (images to be "shuffled" every time the page is viewed).
     * After you've finished created your own customized gallery/slideshow/slider/fader, you should probably remove the `/templates/` directory so users don't accidentally choose one of them as a custom template for the block, and also because it contains a lot of files that will just waste space if not being used.
 
+
+***TODO: Add a section about how to customize the back-end (turning on/off large and thumb, setting default values in their place)***
+
 ##Customization Notes, Tips, and Gotchas
 Some things to watch out for when building your own slideshow:
 
-* Coin Slider, Galleria and Fancybox require the least amount of CSS tweaking to get looking right. Nivo Slider and Galleriffic require a bit more CSS tweaking to get looking right, but they offer more features so it might be worth the trouble. The PlusSlider is a great bare-bones slider/fader that contains almost no out-of-the-box styles so that customization is as easy as possible (because you don't have to undo a lot of styles before adding your own) -- see https://github.com/JamyGolden/PlusSlider for more details.
-
-* If you're not using Concrete 5.4.2 or higher, you won't be able to use cropping (although there is a workaround available if needed -- replace your site's concrete/helpers/image.php file with a recent version from C5's github repo).
-
-* If you're not using Concrete 5.4.1 or higher, you won't be able to specify the display order of images in the file set. Time to upgrade!
+* The package requires Concrete 5.4.1 or higher (primarily because you couldn't specify the order of files in a file set before that version).
 
 * When building your own template, it's best to append the block ID to an element's id (for example, `<div id="gallery<?php echo $bID ?>">`) because otherwise your javascript will break if the user adds more than one of these blocks to the same page.
 
@@ -57,16 +60,14 @@ Some things to watch out for when building your own slideshow:
 * If site exists in a subdirectory (for example, http://example.com/myc5site/), your stylesheets won't be loaded the very first time the block is added to a page -- but all subsequent page views will be fine so this is not a major problem, just something to be aware of when editing your site.
 
 ## Titles, Captions, Links
-This block is intended to facilitate advanced javascript for highly customized slideshows and galleries, but the editing interface is very bare-bones -- users only choose a file set, so all meta-data about images must be managed through the dashboard File Manager.
+All meta-data about images must be managed through the dashboard File Manager.
 
 Titles and Descriptions are set via file "Properties" in the File Manager (click on an image, choose "Properties" from the popup menu). Note that Concrete5 sets the Title property to the file name when files are first uploaded, so if you want to use titles in your template you might want to change these.
 
 Reordering the images can be done by clicking the "Sets" tab above the file list in the File Manager, clicking on the appropriate File Set name, and dragging-and-dropping the icons around.
 
-Links to other pages are a bit more challenging, because there is no built-in facility for handling this. If you want to allow users to choose a page that an image links to when clicked, there are a few additional things you need to set up first:
+When this package is installed, it will check to see if you have the "Page Selector Attribute" addon installed -- and if so, a new "Gallery Link To Page" file attribute (property) will be created that lets users choose a page that the image will link to when clicked from the gallery. If you didn't have the "Page Selector Attribute" installed when you installed this package, and want to install it now so you can use the image link feature, either uninstall and re-install the package after installing the "Page Selector Attribute", or follow these steps:
 
 1. Install the free [Page Selector Attribute](http://www.concrete5.org/marketplace/addons/page-selector-attribute/) addon from the marketplace.
 2. Allow the new attribute type to be associated with files by going to Dashboard -> Sitewide Settings -> Attributes, and checking the box under the "File" column for the "Page Selector" row.
-3. Add a new "Page Selector" attribute: go to Dashboard -> File Manager -> Attributes, find the "Choose Attribute Type" dropdown at the bottom, choose "Page Selector" from the dropdown menu, click the "Go" button. Enter "gallery_link_to_cid" (no quotes) for the handle, "Link To Page" for the name, and leave the "Searchable" checkboxes unchecked. Then click the "Add Attribute" button.
-
-Now that you have the "Link To Page" attribute installed, users can set it for each image via file "Properties" (just like Title and Description above).
+3. Add a new "Page Selector" attribute: go to Dashboard -> File Manager -> Attributes, find the "Choose Attribute Type" dropdown at the bottom, choose "Page Selector" from the dropdown menu, click the "Go" button. Enter "gallery_link_to_cid" (no quotes) for the handle, "Gallery Link To Page" for the name, and leave the "Searchable" checkboxes unchecked. Then click the "Add Attribute" button.

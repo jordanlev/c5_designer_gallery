@@ -21,8 +21,6 @@ class DesignerGalleryBlockController extends BlockController {
 	
 	/** Size/Cropping Notes:
 	 *  -Images will never be scaled up in size (i.e. an image smaller than the given size settings will not be enlarged).
-	 *  -Cropping only works in Concrete version 5.4.2 and up.
-	 *   (If using an earlier version of C5, the crop setting will be ignored and images will always be scaled.)
 	 *  -If cropping, the width and height determine the exact size of the resized image.
 	 *  -If not cropping, the image is resized proportionally, so width and height determine the maximum possible size.
 	 *  -Setting a width or height to 0 means "ignore this size in our calculations" (as opposed to "make this invisible"):
@@ -99,9 +97,15 @@ class DesignerGalleryBlockController extends BlockController {
 	}
 	
 	private function setInterfaceSettings() {
-		$this->set('filesetsToolURL', REL_DIR_FILES_TOOLS_BLOCKS . '/' . $this->btHandle . '/fileset_select_options');
+		$filesetsToolsURL = Loader::helper('concrete/urls')->getToolsURL('fileset_select_options', $this->getPkgHandle());
+		$this->set('filesetsToolURL', $filesetsToolsURL);
 		$this->set('showLargeControls', $this->showLargeControls);
 		$this->set('showThumbControls', $this->showThumbControls);
+	}
+	
+	//Internal helper function (this isn't extending a block_type_controller method)
+	private function getPkgHandle() {
+		return BlockType::getByHandle($this->btHandle)->getPackageHandle();
 	}
 	
 	private function setFileSets() {
@@ -130,7 +134,6 @@ class DesignerGalleryBlockController extends BlockController {
 	static function getFilesetImages($fsID, $randomize = false) {
 		Loader::model('file_set');
 		Loader::model('file_list');
-		$filesetDisplayOrderSupported = version_compare(APP_VERSION, '5.4.1', '>=');
 		
 		$fs = FileSet::getByID($fsID);
 		$fl = new FileList();		
@@ -139,23 +142,23 @@ class DesignerGalleryBlockController extends BlockController {
 		$fl->setPermissionLevel('canRead');
 		if ($randomize) {
 			$fl->sortBy('RAND()', 'asc');
-		} else if ($filesetDisplayOrderSupported) {
-			$fl->sortByFileSetDisplayOrder();
+		} else {
+			$fl->sortByFileSetDisplayOrder(); //Requires 5.4.1 or higher: version_compare(APP_VERSION, '5.4.1', '>=');
 		}
 		$files = $fl->get();
 		return $files;	
 	}
 	
 	private function processImageFiles($imageFiles, $largeWidth, $largeHeight, $cropLarge, $thumbWidth, $thumbHeight, $cropThumbs) {
-		$ih = Loader::helper('image');
+		$ih = version_compare(APP_VERSION, '5.4.2', '>=') ? Loader::helper('image') : Loader::helper('cropping_image', $this->getPkgHandle());
 		$nh = Loader::helper('navigation');
+		
 		$resizeLarge = ($largeWidth > 0 || $largeHeight > 0);
 		$resizeLargeWidth = empty($largeWidth) ? 9999 : $largeWidth;
 		$resizeLargeHeight = empty($largeHeight) ? 9999 : $largeHeight;
 		$resizeThumb = ($thumbWidth > 0 || $thumbHeight > 0);
 		$resizeThumbWidth = empty($thumbWidth) ? 9999 : $thumbWidth;
 		$resizeThumbHeight = empty($thumbHeight) ? 9999 : $thumbHeight;
-		$croppingSupported = version_compare(APP_VERSION, '5.4.2', '>=');
 		
 		$maxOrigWidth = 0;
 		$maxOrigHeight = 0;
@@ -189,10 +192,8 @@ class DesignerGalleryBlockController extends BlockController {
 			//"Large" Size...
 			if (!$resizeLarge) {
 				$image->large = $image->orig;
-			} else if ($croppingSupported) {
-				$image->large = $ih->getThumbnail($f, $resizeLargeWidth, $resizeLargeHeight, $cropLarge);
 			} else {
-				$image->large = $ih->getThumbnail($f, $resizeLargeWidth, $resizeLargeHeight);
+				$image->large = $ih->getThumbnail($f, $resizeLargeWidth, $resizeLargeHeight, $cropLarge);
 			}
 			$maxLargeWidth = ($image->large->width > $maxLargeWidth) ? $image->large->width : $maxLargeWidth;
 			$maxLargeHeight = ($image->large->height > $maxLargeHeight) ? $image->large->height : $maxLargeHeight;
@@ -200,10 +201,8 @@ class DesignerGalleryBlockController extends BlockController {
 			//Thumbnail...
 			if (!$resizeThumb) {
 				$image->thumb = $image->orig;
-			} else if ($croppingSupported) {
-				$image->thumb = $ih->getThumbnail($f, $resizeThumbWidth, $resizeThumbHeight, $cropThumbs);
 			} else {
-				$image->thumb = $ih->getThumbnail($f, $resizeThumbWidth, $resizeThumbHeight);
+				$image->thumb = $ih->getThumbnail($f, $resizeThumbWidth, $resizeThumbHeight, $cropThumbs);
 			}
 			$maxThumbWidth = ($image->thumb->width > $maxThumbWidth) ? $image->thumb->width : $maxThumbWidth;
 			$maxThumbHeight = ($image->thumb->height > $maxThumbHeight) ? $image->thumb->height : $maxThumbHeight;
