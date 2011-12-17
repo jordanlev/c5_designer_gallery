@@ -1,11 +1,14 @@
 <?xml version="1.0"?>
 <schema version="0.3">
-	
-	<table name="btDesignerGallery"><!-- this must be the same name as $btTableName in controller.php -->
-		
-		<field name="bID" type="I"><KEY /><UNSIGNED /></field>
-		<field name="fsID" type="I"><UNSIGNED /></field>
-	
+	<table name="btDesignerGallery"><!-- this must be the same name as $btTableName in controller.php -->		
+		<field name="bID" type="I"><key /><unsigned /></field>
+		<field name="fsID" type="I"><unsigned /></field>
+		<field name="largeWidth" type="I"><unsigned /></field>
+		<field name="largeHeight" type="I"><unsigned /></field>
+		<field name="cropLarge" type="L"><default value="0" /></field>
+		<field name="thumbWidth" type="I"><unsigned /></field>
+		<field name="thumbHeight" type="I"><unsigned /></field>
+		<field name="cropThumb" type="L"><default value="0" /></field>
+		<field name="randomize" type="L"><default value="0" /></field>
 	</table>
-
 </schema>

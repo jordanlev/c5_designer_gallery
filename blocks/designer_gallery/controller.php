@@ -8,62 +8,112 @@ class DesignerGalleryBlockController extends BlockController {
       THE BLOCK'S NAME.
 */
 	
-	//Size/Cropping Notes:
-	// * Images will never be scaled up in size (i.e. an image smaller than the given size settings will not be enlarged).
-	// * Cropping only works in Concrete version 5.4.2 and up.
-	//   (If using an earlier version of C5, the crop setting will be ignored and images will always be scaled.)
-	// * If cropping, the width and height determine the exact size of the resized image.
-	// * If not cropping, the image is resized proportionally, so width and height determine the maximum possible size.
-	// * Setting a width or height to 0 means "ignore this size in our calculations" (as opposed to "make this invisible"):
-	//    ~if cropping, setting one dimension to 0 means that only the *other* dimension will be cropped.
-	//    ~if not cropping, setting one dimension to 0 means that the image will be scaled down proportionally according to the *other* dimension.
-	//    ~if both width and height are set to 0, resizing/cropping will be disabled for that size.
-	//     (Do this if you're not using a particular size of image in your template, for example if you are not
-	//     displaying thumbnails in your gallery, disable them by setting $thumbWidth and $thumbHeight to 0.)
+	protected $btTable = 'btDesignerGallery'; //Must be the same as table name in db.xml.
+	                                          //Should correspond to block's directory/class name.
 	
-	public $largeWidth = 300;
-	public $largeHeight = 200;
-	public $cropLarge = false;
+	public function getBlockTypeName() {
+		return t('Designer Gallery'); //Appears in "Add Block" list when adding blocks to a page
+	}
 	
-	public $thumbWidth = 50;
-	public $thumbHeight = 50;
-	public $cropThumbs = true;
+	public function getBlockTypeDescription() {
+		return t('Designer Gallery'); //Only appears in dashboard "Add Functionality" page
+	}
 	
-	public $randomizeOrder = false;
-			
-	protected $btName = 'Designer Gallery'; //Appears in "Add Block" list when adding blocks to a page
-	protected $btDescription = 'Designer Gallery'; //Only appears in dashboard "Add Functionality" page
-	protected $btTable = 'btDesignerGallery'; //Must be the same as table name in db.xml. Should correspond to block's directory/class name (with a "bt" prefix)
+	/** Size/Cropping Notes:
+	 *  -Images will never be scaled up in size (i.e. an image smaller than the given size settings will not be enlarged).
+	 *  -Cropping only works in Concrete version 5.4.2 and up.
+	 *   (If using an earlier version of C5, the crop setting will be ignored and images will always be scaled.)
+	 *  -If cropping, the width and height determine the exact size of the resized image.
+	 *  -If not cropping, the image is resized proportionally, so width and height determine the maximum possible size.
+	 *  -Setting a width or height to 0 means "ignore this size in our calculations" (as opposed to "make this invisible"):
+	 *    ~if cropping, setting one dimension to 0 means that only the *other* dimension will be cropped.
+	 *    ~if not cropping, setting one dimension to 0 means that the image will be scaled down proportionally according to the *other* dimension.
+	 *    ~if both width and height are set to 0, resizing/cropping will be disabled for that size.
+	 *     (Do this if you're not using a particular size of image in your template, for example if you are not
+	 *     displaying thumbnails in your gallery, disable them by setting $thumbWidth and $thumbHeight to 0.)
+	 */
+	
+	//Default values for new blocks...
+	private $defaultLargeWidth = 0;
+	private $defaultLargeHeight = 0;
+	private $defaultCropLarge = false;
+	private $defaultThumbWidth = 50;
+	private $defaultThumbHeight = 50;
+	private $defaultCropThumb = true;
+	private $defaultRandomize = false;
+	
+	//Add/Edit interface configuration...
+	private $showLargeControls = true;
+	private $showThumbControls = true;
 
 /* DONE! You generally don't need to change anything below this line.
 **************************************************************************************************/
-
-	protected $btInterfaceWidth = "300";
-	protected $btInterfaceHeight = "95";
+	
+	protected $btInterfaceWidth = "500";
+	protected $btInterfaceHeight = "200";
+	
 	protected $btCacheBlockRecord = true;
 	protected $btCacheBlockOutput = true;
 	protected $btCacheBlockOutputOnPost = true;
 	protected $btCacheBlockOutputForRegisteredUsers = true;
 	protected $btCacheBlockOutputLifetime = 300;
 	
-	public function add() {
-		$this->set('fsID', 0);
-		$this->loadFileSets();
-		$this->set('filesetsToolURL', REL_DIR_FILES_TOOLS_BLOCKS . '/designer_gallery/fileset_select_options');
-	}
-	
-	public function edit() {
-		$this->loadFileSets();
-		$this->set('filesetsToolURL', REL_DIR_FILES_TOOLS_BLOCKS . '/designer_gallery/fileset_select_options');
-	}
-	
 	public function view() {
-		$files = $this->getFilesetImages($this->fsID, $this->randomizeOrder);
+		$files = $this->getFilesetImages($this->fsID, $this->randomize);
 		$images = $this->processImageFiles($files, $this->largeWidth, $this->largeHeight, $this->cropLarge, $this->thumbWidth, $this->thumbHeight, $this->cropThumbs);
 		$this->set('images', $images);
 	}
 	
-	private function loadFileSets() {
+	public function add() {
+		$this->set('fsID', 0);
+		$this->setFileSets();
+		$this->setInterfaceSettings();
+		
+		//Default values for new blocks...
+		$this->set('largeWidth', (empty($this->defaultLargeWidth) ? '' : $this->defaultLargeWidth));
+		$this->set('largeHeight', (empty($this->defaultLargeHeight) ? '' : $this->defaultLargeHeight));
+		$this->set('cropLarge', (empty($this->defaultLargeWidth) && empty($this->defaultLargeHeight)) ? '-1' : $this->defaultCropLarge);
+		$this->set('thumbWidth', (empty($this->defaultThumbWidth) ? '' : $this->defaultThumbWidth));
+		$this->set('thumbHeight', (empty($this->defaultThumbHeight) ? '' : $this->defaultThumbHeight));
+		$this->set('cropThumb', $this->defaultCropThumb ? 1 : 0);
+		$this->set('randomize', $this->defaultRandomize);
+	}
+	
+	public function edit() {
+		$this->setFileSets();
+		$this->setInterfaceSettings();
+		
+		//Don't show 0 for empty widths/heights...
+		$this->set('largeWidth', (empty($this->largeWidth) ? '' : $this->largeWidth));
+		$this->set('largeHeight', (empty($this->largeHeight) ? '' : $this->largeHeight));
+		$this->set('thumbWidth', (empty($this->thumbWidth) ? '' : $this->thumbWidth));
+		$this->set('thumbHeight', (empty($this->thumbHeight) ? '' : $this->thumbHeight));		
+	}
+	
+	public function save($data) {
+		$data['largeWidth'] = intval($data['largeWidth']);
+		$data['largeHeight'] = intval($data['largeHeight']);
+		$data['thumbWidth'] = intval($data['thumbWidth']);
+		$data['thumbHeight'] = intval($data['thumbHeight']);
+		
+		$data['cropLarge'] = (intval($data['cropLarge']) < 1) ? 0 : 1; //Watch out for the "-1" option
+		
+		parent::save($data);
+	}
+	
+	public function getJavaScriptStrings() {
+		return array(
+			'fileset-required' => t('You must choose a file set.'),
+		);
+	}
+	
+	private function setInterfaceSettings() {
+		$this->set('filesetsToolURL', REL_DIR_FILES_TOOLS_BLOCKS . '/designer_gallery/fileset_select_options');
+		$this->set('showLargeControls', $this->showLargeControls);
+		$this->set('showThumbControls', $this->showThumbControls);
+	}
+	
+	private function setFileSets() {
 		Loader::model('file_set');
 		$fileSets = FileSet::getMySets();
 		$this->set('fileSets', $fileSets);
