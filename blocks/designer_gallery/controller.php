@@ -157,10 +157,18 @@ class DesignerGalleryBlockController extends BlockController {
 		$resizeThumbHeight = empty($thumbHeight) ? 9999 : $thumbHeight;
 		$croppingSupported = version_compare(APP_VERSION, '5.4.2', '>=');
 		
+		$maxOrigWidth = 0;
+		$maxOrigHeight = 0;
+		$maxLargeWidth = 0;
+		$maxLargeHeight = 0;
+		$maxThumbWidth = 0;
+		$maxThumbHeight = 0;
+		
 		$images = array();
 		foreach ($imageFiles as $f) {
 			$image = new StdClass;
-
+			
+			//Metadata...
 			$image->fID = $f->fID;
 			$image->titleRaw = $f->getTitle();
 			$image->title = htmlspecialchars($image->titleRaw, ENT_QUOTES, APP_CHARSET);
@@ -169,12 +177,16 @@ class DesignerGalleryBlockController extends BlockController {
 			$linkToCID = $f->getAttribute('gallery_link_to_cid'); //To make this work: 1) Install http://www.concrete5.org/marketplace/addons/page-selector-attribute/ . 2) Go to Dashboard -> Sitewide Settings -> Attributes, check the box under the "File" column for the "Page Selector" attribute type. 3) Go to Dashboard -> File Manager -> Attributes, find the "Choose Attribute Type" dropdown at the bottom, select "Page Selector" from the dropdown, click "Go" button. Handle should be "gallery_link_to_cid" (no quotes), name can be whatever you want ("Link To Page" might be good). Ignore the "Searchable" checkboxes. When done, click the "Add Attribute" button. 4) Now users can choose the page an image will link to by setting this property (click on an image in the file manager, choose "Properties" from the popup menu, find this attribute at the bottom of the list, edit it there and save).
 			$image->linkUrl = empty($linkToCID) ? '' : $nh->getLinkToCollection(Page::getByID($linkToCID));
 			
+			//Original Image (full size)...
 			$image->orig = new StdClass;
 			$image->orig->src = $f->getRelativePath();
 			$size = getimagesize($f->getPath());
 			$image->orig->width = $size[0];
 			$image->orig->height = $size[1];
+			$maxOrigWidth = ($image->orig->width > $maxOrigWidth) ? $image->orig->width : $maxOrigWidth;
+			$maxOrigHeight = ($image->orig->height > $maxOrigHeight) ? $image->orig->height : $maxOrigHeight;
 			
+			//"Large" Size...
 			if (!$resizeLarge) {
 				$image->large = $image->orig;
 			} else if ($croppingSupported) {
@@ -182,7 +194,10 @@ class DesignerGalleryBlockController extends BlockController {
 			} else {
 				$image->large = $ih->getThumbnail($f, $resizeLargeWidth, $resizeLargeHeight);
 			}
+			$maxLargeWidth = ($image->large->width > $maxLargeWidth) ? $image->large->width : $maxLargeWidth;
+			$maxLargeHeight = ($image->large->height > $maxLargeHeight) ? $image->large->height : $maxLargeHeight;
 			
+			//Thumbnail...
 			if (!$resizeThumb) {
 				$image->thumb = $image->orig;
 			} else if ($croppingSupported) {
@@ -190,9 +205,19 @@ class DesignerGalleryBlockController extends BlockController {
 			} else {
 				$image->thumb = $ih->getThumbnail($f, $resizeThumbWidth, $resizeThumbHeight);
 			}
-
+			$maxThumbWidth = ($image->thumb->width > $maxThumbWidth) ? $image->thumb->width : $maxThumbWidth;
+			$maxThumbHeight = ($image->thumb->height > $maxThumbHeight) ? $image->thumb->height : $maxThumbHeight;
+			
 			$images[] = $image;
 		}
+		
+		//These may come in handy to the view...
+		$this->set('maxOrigWidth', $maxOrigWidth);
+		$this->set('maxOrigHeight', $maxOrigHeight);
+		$this->set('maxLargeWidth', $maxLargeWidth);
+		$this->set('maxLargeHeight', $maxLargeHeight);
+		$this->set('maxThumbWidth', $maxThumbWidth);
+		$this->set('maxThumbHeight', $maxThumbHeight);
 		
 		return $images;
 	}

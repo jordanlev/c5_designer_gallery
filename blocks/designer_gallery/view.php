@@ -24,12 +24,13 @@
  *   $img->fID : Image's File ID (assigned by Concrete5 when first uploaded)
  *   $img->LinkUrl : URL of a page that the image should link to when clicked (NOTE THAT THIS DOES NOT WORK OUT OF THE BOX -- SEE DOCUMENTATION FOR HOW TO SET THIS UP ON YOUR SITE)
  *
- * If you need to set a container width/height or pass in an overall width/height to your plugin,
- * you can access the settings from the controller like this:
- *   <?php echo $controller->largeWidth ?>
- *   <?php echo $controller->largeHeight ?>
- *   <?php echo $controller->thumbWidth ?>
- *   <?php echo $controller->thumbHeight ?>
+ * If you need to set a container width/height or pass in an overall width/height to your plugin, you can use these:
+ *   <?php echo $maxOrigWidth ?>
+ *   <?php echo $maxOrigHeight ?>
+ *   <?php echo $maxLargeWidth ?>
+ *   <?php echo $maxLargeHeight ?>
+ *   <?php echo $maxThumbWidth ?>
+ *   <?php echo $maxThumbHeight ?>
  * (you could also just use the same number, but this way if you change it in the controller, it gets automatically updated in the template)
  *
  * As with all C5 block templates, the $bID (Block ID) variable is available. If you're using a jquery plugin,
