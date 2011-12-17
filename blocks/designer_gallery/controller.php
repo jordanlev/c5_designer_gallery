@@ -58,10 +58,10 @@ class DesignerGalleryBlockController extends BlockController {
 	protected $btCacheBlockOutputForRegisteredUsers = true;
 	protected $btCacheBlockOutputLifetime = 300;
 	
-	public function view() {
-		$files = $this->getFilesetImages($this->fsID, $this->randomize);
-		$images = $this->processImageFiles($files, $this->largeWidth, $this->largeHeight, $this->cropLarge, $this->thumbWidth, $this->thumbHeight, $this->cropThumbs);
-		$this->set('images', $images);
+	public function getJavaScriptStrings() {
+		return array(
+			'fileset-required' => t('You must choose a file set.'),
+		);
 	}
 	
 	public function add() {
@@ -70,24 +70,44 @@ class DesignerGalleryBlockController extends BlockController {
 		$this->setInterfaceSettings();
 		
 		//Default values for new blocks...
-		$this->set('largeWidth', (empty($this->defaultLargeWidth) ? '' : $this->defaultLargeWidth));
-		$this->set('largeHeight', (empty($this->defaultLargeHeight) ? '' : $this->defaultLargeHeight));
-		$this->set('cropLarge', (empty($this->defaultLargeWidth) && empty($this->defaultLargeHeight)) ? '-1' : $this->defaultCropLarge);
-		$this->set('thumbWidth', (empty($this->defaultThumbWidth) ? '' : $this->defaultThumbWidth));
-		$this->set('thumbHeight', (empty($this->defaultThumbHeight) ? '' : $this->defaultThumbHeight));
-		$this->set('cropThumb', $this->defaultCropThumb ? 1 : 0);
-		$this->set('randomize', $this->defaultRandomize);
+		$this->randomize = $this->defaultRandomize;
+		$this->largeWidth = $this->defaultLargeWidth;
+		$this->largeHeight = $this->defaultLargeHeight;
+		$this->cropLarge = $this->defaultCropLarge;
+		$this->thumbWidth = $this->defaultThumbWidth;
+		$this->thumbHeight = $this->defaultThumbHeight;
+		$this->cropThumb = $this->defaultCropThumb;
+		
+		$this->setNormalizedValues();
 	}
 	
 	public function edit() {
 		$this->setFileSets();
 		$this->setInterfaceSettings();
-		
+		$this->setNormalizedValues();
+	}
+	
+	private function setNormalizedValues() {
 		//Don't show 0 for empty widths/heights...
-		$this->set('largeWidth', (empty($this->largeWidth) ? '' : $this->largeWidth));
-		$this->set('largeHeight', (empty($this->largeHeight) ? '' : $this->largeHeight));
-		$this->set('thumbWidth', (empty($this->thumbWidth) ? '' : $this->thumbWidth));
-		$this->set('thumbHeight', (empty($this->thumbHeight) ? '' : $this->thumbHeight));		
+		$this->set('largeWidth', empty($this->largeWidth) ? '' : $this->largeWidth);
+		$this->set('largeHeight', empty($this->largeHeight) ? '' : $this->largeHeight);
+		$this->set('thumbWidth', empty($this->thumbWidth) ? '' : $this->thumbWidth);
+		$this->set('thumbHeight', empty($this->thumbHeight) ? '' : $this->thumbHeight);		
+		
+		$this->set('cropLarge', (empty($this->largeWidth) && empty($this->largeHeight)) ? '-1' : ($this->cropLarge ? 1 : 0));
+		$this->set('cropThumb', $this->cropThumb ? 1 : 0);
+	}
+	
+	private function setInterfaceSettings() {
+		$this->set('filesetsToolURL', REL_DIR_FILES_TOOLS_BLOCKS . '/' . $this->btHandle . '/fileset_select_options');
+		$this->set('showLargeControls', $this->showLargeControls);
+		$this->set('showThumbControls', $this->showThumbControls);
+	}
+	
+	private function setFileSets() {
+		Loader::model('file_set');
+		$fileSets = FileSet::getMySets();
+		$this->set('fileSets', $fileSets);
 	}
 	
 	public function save($data) {
@@ -101,22 +121,10 @@ class DesignerGalleryBlockController extends BlockController {
 		parent::save($data);
 	}
 	
-	public function getJavaScriptStrings() {
-		return array(
-			'fileset-required' => t('You must choose a file set.'),
-		);
-	}
-	
-	private function setInterfaceSettings() {
-		$this->set('filesetsToolURL', REL_DIR_FILES_TOOLS_BLOCKS . '/' . $this->btHandle . '/fileset_select_options');
-		$this->set('showLargeControls', $this->showLargeControls);
-		$this->set('showThumbControls', $this->showThumbControls);
-	}
-	
-	private function setFileSets() {
-		Loader::model('file_set');
-		$fileSets = FileSet::getMySets();
-		$this->set('fileSets', $fileSets);
+	public function view() {
+		$files = $this->getFilesetImages($this->fsID, $this->randomize);
+		$images = $this->processImageFiles($files, $this->largeWidth, $this->largeHeight, $this->cropLarge, $this->thumbWidth, $this->thumbHeight, $this->cropThumbs);
+		$this->set('images', $images);
 	}
 	
 	static function getFilesetImages($fsID, $randomize = false) {
