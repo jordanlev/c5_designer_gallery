@@ -71,3 +71,16 @@ When this package is installed, it will check to see if you have the "Page Selec
 ## Back-End Configuration Options
 You (as the designer / developer) can choose whether to show end-users the "large image" resize controls, the "thumbnail image" resize controls, both, or neither. Do this by setting the `$showLargeControls` and `$showThumbControls` variables in the block's `controller.php` file. For example, if you are creating a slideshow for which you don't show thumbnails, you can hide the thumb controls so the user doesn't see them and get confused. Another example is if you always want your gallery to show full-size images (without any resizing or cropping), you can hide both sets of controls, so the user only chooses a file set and a display order, but nothing else.
 Another option is if you are creating a very specific design for your gallery and you want to "hard-code" the width and height of the images (you do *not* want to give the user the ability to change these settings). This can be achieved by disabling both sets of controls, and setting the desired "hard-coded" values for width/height/etc. in the block's controller defaults (e.g. `$defaultLargeWidth`, `$defaultThumbWidth`, etc.)
+
+## Size / Cropping Notes
+* Images will never be scaled up in size (i.e. an image smaller than the given size settings will not be enlarged).
+* If cropping, the width and height determine the exact size of the resized image.
+* If not cropping, the image is resized proportionally, so width and height determine the maximum possible size.
+* Setting a width or height to 0 means "ignore this size in our calculations" (as opposed to "make this invisible"):
+    * if cropping, setting one dimension to 0 means that only the *other* dimension will be cropped.
+    * if not cropping, setting one dimension to 0 means that the image will be scaled down proportionally according to the *other* dimension.
+    * if both width and height are set to 0, resizing/cropping will be disabled for that size.
+      (Do this if you're not using a particular size of image in your template, for example if you are not
+      displaying thumbnails in your gallery, disable them by setting $thumbWidth and $thumbHeight to 0.)
+
+

@@ -1,6 +1,12 @@
 <?php defined('C5_EXECUTE') or die(_("Access Denied."));
 
 class DesignerGalleryPackage extends Package {
+/*    ^^^^^^^^^^^^^^^
+      CHANGE THIS PORTION
+      OF THE CLASS NAME TO
+      CamelCase VERSION OF
+      THE PACKAGE'S NAME.
+*/
 
 	protected $pkgHandle = 'designer_gallery';
 	protected $appVersionRequired = '5.4.1';
@@ -14,14 +20,17 @@ class DesignerGalleryPackage extends Package {
 		return t('Designer Gallery');
 	}
 	
+/* DONE! You generally don't need to change anything below this line.
+**************************************************************************************************/
+	
 	public function install() {
 		$pkg = parent::install();
-		BlockType::installBlockTypeFromPackage('designer_gallery', $pkg);
+		BlockType::installBlockTypeFromPackage($this->pkgHandle, $pkg);
 		$this->installPageLinkAttribute($pkg);
 	}
 	
 	public function upgrade() {
-		$pkg = Package::getByHandle('designer_gallery');
+		$pkg = Package::getByHandle($this->pkgHandle);
 		$this->installPageLinkAttribute($pkg);
 		parent::upgrade();
 	}

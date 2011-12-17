@@ -19,19 +19,9 @@ class DesignerGalleryBlockController extends BlockController {
 		return t('Designer Gallery'); //Only appears in dashboard "Add Functionality" page
 	}
 	
-	/** Size/Cropping Notes:
-	 *  -Images will never be scaled up in size (i.e. an image smaller than the given size settings will not be enlarged).
-	 *  -If cropping, the width and height determine the exact size of the resized image.
-	 *  -If not cropping, the image is resized proportionally, so width and height determine the maximum possible size.
-	 *  -Setting a width or height to 0 means "ignore this size in our calculations" (as opposed to "make this invisible"):
-	 *    ~if cropping, setting one dimension to 0 means that only the *other* dimension will be cropped.
-	 *    ~if not cropping, setting one dimension to 0 means that the image will be scaled down proportionally according to the *other* dimension.
-	 *    ~if both width and height are set to 0, resizing/cropping will be disabled for that size.
-	 *     (Do this if you're not using a particular size of image in your template, for example if you are not
-	 *     displaying thumbnails in your gallery, disable them by setting $thumbWidth and $thumbHeight to 0.)
-	 */
-	
 	//Default values for new blocks...
+	//Note that if you disable controls below, the defaults here serve as
+	// "permanent" or "hard-coded" values that the user can never change.
 	private $defaultLargeWidth = 0;
 	private $defaultLargeHeight = 0;
 	private $defaultCropLarge = false;
