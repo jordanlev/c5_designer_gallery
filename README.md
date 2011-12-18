@@ -22,9 +22,10 @@ This package provides a backend / editing interface, but it is up to you to prov
     * Change the block name and description. It is recommended that the name correspond with the directory and class names, but this is not a technical requirement (just avoids confusion).
     * Change the table name to `bt` followed by the CamelCase version of the block name -- for example, "My Awesome Gallery" would get a table name of `btMyAwesomeGallery`.
 5. Edit the block's `db.xml` file so the table name matches what you set in the block `controller.php`.
-6. Replace the package's `icon.png` file with your own icon (should be a 97x97 PNG with rounded corners, called `icon.png`).
-7. Reinstall the package via Dashboard -> Add Functionality.
-8. Implement the front-end.
+6. Optional: Replace the package's `icon.png` file with your own icon (should be a 97x97 PNG with rounded corners, called `icon.png`).
+7. Optional: If you want to allow images to link to another page on your site when clicked, you'll need to install Mnkras's free [Page Selector Attribute](http://www.concrete5.org/marketplace/addons/page-selector-attribute/) addon **before** re-installing the package in the next step.
+8. Install the package via Dashboard -> Add Functionality.
+9. Implement the front-end.
     * Put all of your required javascript files into the block's top-level `js` directory.
         * *NOTE: Do **not** put the base jQuery library in here -- Concrete5 loads this automatically on every page already so if you add it here, it will get loaded twice and cause conflicts and errors on the page.*
     * Put all of your required css files into the block's top-level `css` directory.
