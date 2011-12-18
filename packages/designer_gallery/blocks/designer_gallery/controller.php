@@ -25,14 +25,14 @@ class DesignerGalleryBlockController extends BlockController {
 	private $defaultLargeWidth = 0;
 	private $defaultLargeHeight = 0;
 	private $defaultCropLarge = false;
-	private $defaultThumbWidth = 50;
-	private $defaultThumbHeight = 50;
+	private $defaultThumbWidth = 0;
+	private $defaultThumbHeight = 0;
 	private $defaultCropThumb = true;
 	private $defaultRandomize = false;
 	
 	//Add/Edit interface configuration...
 	private $showLargeControls = true;
-	private $showThumbControls = true;
+	private $showThumbControls = false;
 
 /* DONE! You generally don't need to change anything below this line.
 **************************************************************************************************/

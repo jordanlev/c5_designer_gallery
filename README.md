@@ -19,8 +19,8 @@ This package provides a backend / editing interface, but it is up to you to prov
 	* Change the return values of the getPackageName() and getPackageDescription() functions.
 4. Edit the block's `controller.php` file:
     * Change the class name to be a TitleCaseWithNoSpaces version of the block name, followed by `BlockController` -- for example, "My Awesome Gallery" would get a class name of `MyAwesomeGalleryBlockController`.
-    * Change the block name and description. It is recommended that the name correspond with the directory and class names, but this is not a technical requirement (just avoids confusion).
     * Change the table name to `bt` followed by the CamelCase version of the block name -- for example, "My Awesome Gallery" would get a table name of `btMyAwesomeGallery`.
+    * Change the block name and description. It is recommended that the name correspond with the directory and class names, but this is not a technical requirement (just avoids confusion).
 5. Edit the block's `db.xml` file so the table name matches what you set in the block `controller.php`.
 6. Optional: Replace the package's `icon.png` file with your own icon (should be a 97x97 PNG with rounded corners, called `icon.png`).
 7. Optional: If you want to allow images to link to another page on your site when clicked, you'll need to install Mnkras's free [Page Selector Attribute](http://www.concrete5.org/marketplace/addons/page-selector-attribute/) addon **before** re-installing the package in the next step.
