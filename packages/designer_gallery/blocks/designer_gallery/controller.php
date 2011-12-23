@@ -33,18 +33,20 @@ class DesignerGalleryBlockController extends BlockController {
 	//Add/Edit interface configuration...
 	private $showLargeControls = true;
 	private $showThumbControls = false;
+	
+	//Caching is disabled while in development,
+	// but you should change these to TRUE for production.
+	protected $btCacheBlockRecord = false;
+	protected $btCacheBlockOutput = false;
+	protected $btCacheBlockOutputOnPost = false;
+	protected $btCacheBlockOutputForRegisteredUsers = false;
+	protected $btCacheBlockOutputLifetime = 300;
 
 /* DONE! You generally don't need to change anything below this line.
 **************************************************************************************************/
 	
 	protected $btInterfaceWidth = "500";
 	protected $btInterfaceHeight = "200";
-	
-	protected $btCacheBlockRecord = true;
-	protected $btCacheBlockOutput = true;
-	protected $btCacheBlockOutputOnPost = true;
-	protected $btCacheBlockOutputForRegisteredUsers = true;
-	protected $btCacheBlockOutputLifetime = 300;
 	
 	public function getJavaScriptStrings() {
 		return array(
