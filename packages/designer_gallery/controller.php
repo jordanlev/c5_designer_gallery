@@ -50,12 +50,13 @@ class DesignerGalleryPackage extends Package {
 			
 			//Install the link-to-page attribute (if not done already)
 			Loader::model('file_attributes');
-			$akGalleryLinkToCID = FileAttributeKey::getByHandle('gallery_link_to_cid');
+			$akHandle = 'gallery_link_to_cid';
+			$akGalleryLinkToCID = FileAttributeKey::getByHandle($akHandle);
 			if (!$akGalleryLinkToCID || !intval($akGalleryLinkToCID->getAttributeKeyID())) {
 				$akGalleryLinkToCID = FileAttributeKey::add(
 					$at,
 					array(
-						'akHandle' => 'gallery_link_to_cid',
+						'akHandle' => $akHandle,
 						'akName' => t('Gallery Link To Page'),
 					),
 					$pkg
