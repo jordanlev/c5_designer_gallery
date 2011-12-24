@@ -48,11 +48,11 @@
 		</td><td class="label">
 			<?php echo $form->label('largeWidth', t('Width:')); ?>
 		</td><td>
-			<?php echo $form->text('largeWidth', $largeWidth); ?>px
+			<?php echo $form->text('largeWidth', $largeWidth); ?> px
 		</td><td class="label">
 			<?php echo $form->label('largeHeight', t('Height:')); ?>
 		</td><td>
-			<?php echo $form->text('largeHeight', $largeHeight); ?>px
+			<?php echo $form->text('largeHeight', $largeHeight); ?> px
 		</td>
 	</tr>
 	
@@ -64,11 +64,11 @@
 		</td><td class="label">
 			<?php echo $form->label('thumbWidth', t('Width:')); ?>
 		</td><td>
-			<?php echo $form->text('thumbWidth', $thumbWidth); ?>px
+			<?php echo $form->text('thumbWidth', $thumbWidth); ?> px
 		</td><td class="label">
 			<?php echo $form->label('thumbHeight', t('Height:')); ?>
 		</td><td>
-			<?php echo $form->text('thumbHeight', $thumbHeight); ?>px
+			<?php echo $form->text('thumbHeight', $thumbHeight); ?> px
 		</td>
 	</tr>
 </table>

@@ -59,7 +59,7 @@ function ccmValidateBlockForm() {
     	//If width/height values are both empty, set dropdown to 'original size'.
     	//If either width or height (or both) has a non-empty value, ensure dropdown isnn't on 'original size'.
     	$('#largeWidth, #largeHeight').blur(function() {
-    		var isEmptySizes = (($('#largeWidth').val().length == 0) && ($('#largeWidth').val().length == 0));
+    		var isEmptySizes = (($('#largeWidth').val().length == 0) && ($('#largeHeight').val().length == 0));
     		if (isEmptySizes) {
     			$('#cropLarge').val('-1');
     		} else if ($('#cropLarge').val() == '-1') {
