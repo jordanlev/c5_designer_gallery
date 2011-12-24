@@ -2,7 +2,7 @@
 
 Boilerplate image gallery block that provides all of the back-end code (add/edit dialog and controller) so you can focus on implementing the front-end slideshow, slider, gallery, etc.
 
-Scroll down for details on instructions and setup. For a tutorial on how to use this to build a Flex Slider block, see <http://c5blog.jordanlev.com/blog/2011/12/build-a-slideshow-block/>
+For a tutorial on how to use this to build a Flex Slider block, see: <http://c5blog.jordanlev.com/blog/2011/12/build-a-slideshow-block/>
 
 ## Installation
 Download this code by clicking the "Zip" button above. Unzip the downloaded file and move the entire `designer_gallery` directory into your site's top-level `packages` directory. Then log into your site and go to Dashboard -> Add Functionality. Click the "Install" button next to "Designer Gallery".
