@@ -40,7 +40,7 @@ class DesignerGalleryBlockController extends BlockController {
 	protected $btCacheBlockOutput = false;
 	protected $btCacheBlockOutputOnPost = false;
 	protected $btCacheBlockOutputForRegisteredUsers = false;
-	protected $btCacheBlockOutputLifetime = 300;
+	protected $btCacheBlockOutputLifetime = CACHE_LIFETIME;
 
 /* DONE! You generally don't need to change anything below this line.
 **************************************************************************************************/
@@ -89,7 +89,7 @@ class DesignerGalleryBlockController extends BlockController {
 	}
 	
 	private function setInterfaceSettings() {
-		$filesetsToolsURL = Loader::helper('concrete/urls')->getToolsURL('fileset_select_options', $this->getPkgHandle());
+		$filesetsToolsURL = Loader::helper('concrete/urls')->getBlockTypeToolsURL(BlockType::getByHandle($this->btHandle)) . '/fileset_select_options';
 		$this->set('filesetsToolURL', $filesetsToolsURL);
 		$this->set('showLargeControls', $this->showLargeControls);
 		$this->set('showThumbControls', $this->showThumbControls);
