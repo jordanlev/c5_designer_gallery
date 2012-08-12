@@ -119,7 +119,7 @@ class DesignerGalleryBlockController extends BlockController {
 	
 	public function view() {
 		$files = $this->getFilesetImages($this->fsID, $this->randomize);
-		$images = $this->processImageFiles($files, $this->largeWidth, $this->largeHeight, $this->cropLarge, $this->thumbWidth, $this->thumbHeight, $this->cropThumbs);
+		$images = $this->processImageFiles($files, $this->largeWidth, $this->largeHeight, $this->cropLarge, $this->thumbWidth, $this->thumbHeight, $this->cropThumb);
 		$this->set('images', $images);
 	}
 	
@@ -141,7 +141,7 @@ class DesignerGalleryBlockController extends BlockController {
 		return $files;	
 	}
 	
-	private function processImageFiles($imageFiles, $largeWidth, $largeHeight, $cropLarge, $thumbWidth, $thumbHeight, $cropThumbs) {
+	private function processImageFiles($imageFiles, $largeWidth, $largeHeight, $cropLarge, $thumbWidth, $thumbHeight, $cropThumb) {
 		$ih = version_compare(APP_VERSION, '5.4.2', '>=') ? Loader::helper('image') : Loader::helper('cropping_image', $this->getPkgHandle());
 		$nh = Loader::helper('navigation');
 		
@@ -194,7 +194,7 @@ class DesignerGalleryBlockController extends BlockController {
 			if (!$resizeThumb) {
 				$image->thumb = $image->orig;
 			} else {
-				$image->thumb = $ih->getThumbnail($f, $resizeThumbWidth, $resizeThumbHeight, $cropThumbs);
+				$image->thumb = $ih->getThumbnail($f, $resizeThumbWidth, $resizeThumbHeight, $cropThumb);
 			}
 			$maxThumbWidth = ($image->thumb->width > $maxThumbWidth) ? $image->thumb->width : $maxThumbWidth;
 			$maxThumbHeight = ($image->thumb->height > $maxThumbHeight) ? $image->thumb->height : $maxThumbHeight;
