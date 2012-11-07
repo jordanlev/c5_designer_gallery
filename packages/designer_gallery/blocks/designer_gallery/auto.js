@@ -23,7 +23,7 @@ function ccmValidateBlockForm() {
     		width: '90%',
     		height: '70%',
     		modal: false,
-    		href: CCM_TOOLS_PATH + "/files/search_dialog",
+    		href: CCM_TOOLS_PATH + "/files/search_dialog?disable_choose=1",
     		title: ccmi18n_filemanager.title,
     		onClose: function () {
     			refreshFilesetList(last_selected_fsid);
