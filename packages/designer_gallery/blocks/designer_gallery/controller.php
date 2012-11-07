@@ -175,9 +175,8 @@ class DesignerGalleryBlockController extends BlockController {
 			//Original Image (full size)...
 			$image->orig = new StdClass;
 			$image->orig->src = $f->getRelativePath();
-			$size = getimagesize($f->getPath());
-			$image->orig->width = $size[0];
-			$image->orig->height = $size[1];
+			$image->orig->width = $f->getAttribute('width');
+			$image->orig->height = $f->getAttribute('height');
 			$maxOrigWidth = ($image->orig->width > $maxOrigWidth) ? $image->orig->width : $maxOrigWidth;
 			$maxOrigHeight = ($image->orig->height > $maxOrigHeight) ? $image->orig->height : $maxOrigHeight;
 			
