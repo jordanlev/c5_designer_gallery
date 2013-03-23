@@ -52,7 +52,7 @@ class DesignerGalleryPackage extends Package {
 			Loader::model('file_attributes');
 			$akHandle = 'gallery_link_to_cid';
 			$akGalleryLinkToCID = FileAttributeKey::getByHandle($akHandle);
-			if (!$akGalleryLinkToCID || !intval($akGalleryLinkToCID->getAttributeKeyID())) {
+			if (!is_object($akGalleryLinkToCID) || !intval($akGalleryLinkToCID->getAttributeKeyID())) {
 				$akGalleryLinkToCID = FileAttributeKey::add(
 					$at,
 					array(
