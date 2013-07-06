@@ -22,7 +22,7 @@
  *   $img->titleRaw : Unescaped title (html entities are not encoded -- use with caution!)
  *   $img->descriptionRaw : Unescaped title (html entities are not encoded -- use with caution!)
  *   $img->fID : Image's File ID (assigned by Concrete5 when first uploaded)
- *   $img->LinkUrl : URL of a page that the image should link to when clicked (NOTE THAT THIS DOES NOT WORK OUT OF THE BOX -- SEE DOCUMENTATION FOR HOW TO SET THIS UP ON YOUR SITE)
+ *   $img->linkUrl : URL of a page that the image should link to when clicked (NOTE THAT THIS DOES NOT WORK OUT OF THE BOX -- SEE DOCUMENTATION FOR HOW TO SET THIS UP ON YOUR SITE)
  *
  * If you need to set a container width/height or pass in an overall width/height to your plugin, you can use these:
  *   <?php echo $maxOrigWidth ?>
